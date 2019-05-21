@@ -2,22 +2,21 @@ import React, {Component} from 'react';
 import './App.css';
 
 import Comments from './Comments'
+import NewComment from './NewComment'
 
 class App extends Component {
   state = {
-    comments: [],
-    newComment: '',
+    comments: [],    
     countComments: 0
   }
 
-  sendComment = () => {
-    if(this.state.newComment.trim() !== '')
+  sendComment = commentOfNewComment => {
+    if(commentOfNewComment.trim() !== '')
       this.setState({      
         comments: [
           ...this.state.comments, 
-          this.state.newComment
+          commentOfNewComment
         ],
-        newComment: '',
         countComments: this.state.countComments+1
       })
     else
@@ -25,30 +24,16 @@ class App extends Component {
       return
   }
 
-  handleChange = event => {
-    this.setState({
-      newComment: event.target.value
-    })    
-  }  
-
   render() {
     return (
       <main className="App container">
         <div className="row">
-          <div className="col l10 offset-l2">
+          <div className="col l10 offset-l1">
             <div className="card-panel card-item">
 
               <div className="row">
-
-                <div className="col s12">
-                  <h5>Adicione um comentário:</h5>
-                  <textarea name="comment" id="comment" placeholder="Escreva um comentário..." rows="8" value={this.state.newComment} onChange={this.handleChange} required></textarea> 
-                  <br/>
-                  <button className="btn waves-effect teal" onClick={this.sendComment}>Adicionar comentário</button>                  
-                </div>  
-
+                <NewComment sendComment={this.sendComment}/>   
                 <Comments comments={this.state.comments} countComments={this.state.countComments} />
-
               </div>
 
             </div>
