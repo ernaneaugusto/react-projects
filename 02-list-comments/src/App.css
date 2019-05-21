@@ -1,0 +1,14 @@
+#root{
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  display: flex;    
+}
+/* My class */
+.text-center{
+  text-align: center;
+}
+.card-item{
+  margin-top: 50px;
+}
+
