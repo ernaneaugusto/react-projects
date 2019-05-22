@@ -3,12 +3,12 @@ import Comment from './Comment'
 
 class Comments extends Component {
   render(){
+    const keys = Object.keys(this.props.comments)    
+
     return (
       <div className="col s12">
         <p>Numero de comentários: <strong>{this.props.countComments}</strong></p>
-        {this.props.comments.map( item => {
-          return <Comment comment={item} />
-        })}
+        {keys.map( key => <Comment key={key} comment={this.props.comments[key]} />)}
       </div>
     )
   }

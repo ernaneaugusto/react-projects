@@ -1,22 +1,52 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import './App.css';
 
 import Comments from './Comments'
 import NewComment from './NewComment'
 
+import {database} from './firebase'
+
 class App extends Component {
   state = {
-    comments: [],    
-    countComments: 0
+    comments: {},    
+    countComments: 0,
+    isLoading: false
+  }
+
+  componentDidMount(){
+    this.setState({ isLoading: true})
+    this.comments = database.ref('comments')
+
+    this.comments.on('value', snapshot => {
+      const getCommentsFirebase = snapshot.val()
+      const numberComments = Object.keys(getCommentsFirebase).length
+      
+      this.setState({
+        comments: getCommentsFirebase,
+        isLoading: false,
+        countComments: numberComments
+      })            
+    })    
+    
   }
 
   sendComment = commentOfNewComment => {
+    const id = database.ref().child('comments').push().key
+    const newComment = {}
+    const comment = commentOfNewComment
+
+    newComment['comments/'+id] = {
+      comment
+    }
+    database.ref().update(newComment)
+    
     if(commentOfNewComment.trim() !== '')
+
       this.setState({      
-        comments: [
-          ...this.state.comments, 
-          commentOfNewComment
-        ],
+        // comments: [
+        //   ...this.state.comments, 
+        //   commentOfNewComment
+        // ],
         countComments: this.state.countComments+1
       })
     else
@@ -34,6 +64,9 @@ class App extends Component {
               <div className="row">
                 <NewComment sendComment={this.sendComment}/>   
                 <Comments comments={this.state.comments} countComments={this.state.countComments} />
+                {
+                  this.state.isLoading && <p>Carregando comentários...</p>
+                }
               </div>
 
             </div>
