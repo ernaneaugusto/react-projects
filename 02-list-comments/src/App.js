@@ -33,25 +33,16 @@ class App extends Component {
   sendComment = commentOfNewComment => {
     const id = database.ref().child('comments').push().key
     const newComment = {}
-    const comment = commentOfNewComment
-
-    newComment['comments/'+id] = {
-      comment
-    }
-    database.ref().update(newComment)
+    const comment = commentOfNewComment    
     
-    if(commentOfNewComment.trim() !== '')
-
-      this.setState({      
-        // comments: [
-        //   ...this.state.comments, 
-        //   commentOfNewComment
-        // ],
-        countComments: this.state.countComments+1
-      })
-    else
+    if(commentOfNewComment.trim() !== ''){
+      newComment['comments/'+id] = { comment }
+      database.ref().update(newComment)
+    }
+    else{
       alert('Campo comentário deve ser preenchido!')
       return
+    }
   }
 
   render() {

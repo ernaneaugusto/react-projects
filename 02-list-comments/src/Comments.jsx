@@ -1,17 +1,14 @@
-import React, {Component} from 'react'
+import React from 'react'
 import Comment from './Comment'
 
-class Comments extends Component {
-  render(){
-    const keys = Object.keys(this.props.comments)    
-
+const Comments = props => {
+    const keys = Object.keys(props.comments)    
     return (
       <div className="col s12">
-        <p>Numero de comentários: <strong>{this.props.countComments}</strong></p>
-        {keys.map( key => <Comment key={key} comment={this.props.comments[key]} />)}
+        <p>Numero de comentários: <strong>{props.countComments}</strong></p>
+        {keys.map( key => <Comment key={key} comment={props.comments[key]} />)}
       </div>
     )
-  }
 }
 
 export default Comments
